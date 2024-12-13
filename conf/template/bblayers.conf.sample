@@ -18,7 +18,6 @@ BBLAYERS ?= " \
   "
 
 # Generic layers
-BBLAYERS =+ "${@'${MANIFEST_PATH_RDK_IMAGES}' if os.path.isfile('${MANIFEST_PATH_RDK_IMAGES}/conf/layer.conf') else ''}"
 BBLAYERS =+ "${@'${MANIFEST_PATH_PRODUCT_LAYER}' if os.path.isfile('${MANIFEST_PATH_PRODUCT_LAYER}/conf/layer.conf') else ''}"
 BBLAYERS =+ "${@'${MANIFEST_PATH_STACK_LAYERING_SUPPORT}' if os.path.isfile('${MANIFEST_PATH_STACK_LAYERING_SUPPORT}/conf/layer.conf') else ''}"
 BBLAYERS =+ "${@'${MANIFEST_PATH_RDK_AUXILIARY}' if os.path.isfile('${MANIFEST_PATH_RDK_AUXILIARY}/conf/layer.conf') else ''}"
