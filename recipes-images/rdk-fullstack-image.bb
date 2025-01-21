@@ -46,6 +46,11 @@ update_dropbearkey_path() {
         sed -i 's/\/etc\/dropbear/\/opt\/dropbear/g' ${IMAGE_ROOTFS}/lib/systemd/system/dropbearkey.service
    fi
 }
+# Add rdkhell key mapping
+ROOTFS_POSTPROCESS_COMMAND += "map_rdkshell_keys; "
+map_rdkshell_keys() {
+   install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdkshell_keymapping.json ${IMAGE_ROOTFS}/etc/rdkshell_keymapping.json
+}
 
 # If vendor layer provides dobby configuration, then remove the generic config
 dobby_generic_config_patch(){
