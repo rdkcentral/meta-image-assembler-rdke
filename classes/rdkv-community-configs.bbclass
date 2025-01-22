@@ -39,16 +39,16 @@ EOF
 # Mandatory: Some of the RFC configurations for healthy runtime.
 ROOTFS_POSTPROCESS_COMMAND:append = " install_community_rfc_configs;"
 install_community_rfc_configs() {
-	if [ -f "${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini" ]; then
-		bbnote "Installing community RFC configs..."
-		install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
-	fi
+    if [ -f "${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini" ]; then
+        bbnote "Installing community RFC configs..."
+        install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
+    fi
 }
 
 # Optional: To expose access of Thunder to the local network for Tests/Tools.
 ROOTFS_POSTPROCESS_COMMAND:append = " wpeframework_binding_patch;"
 wpeframework_binding_patch() {
-	bbnote "Changing Thunder 'binding' to '0.0.0.0'..."
+    bbnote "Changing Thunder 'binding' to '0.0.0.0'..."
     sed -i "s/127.0.0.1/0.0.0.0/g" ${IMAGE_ROOTFS}/etc/WPEFramework/config.json
 }
 
@@ -66,8 +66,8 @@ ROOTFS_POSTPROCESS_COMMAND:append = " ctrlm_community_remote_fix;"
 ctrlm_community_remote_fix() {
     if [ ! -f ${IMAGE_ROOTFS}/etc/ctrlm_config.json ]; then
         bbnote "Adding Community RCU Control manager configurations..."
-		install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdk-bt-rcu-config.json ${IMAGE_ROOTFS}/etc/ctrlm_config.json
-	else
-		bbnote "Detected defaullt RCU Control manager configurations, skipping Community RCU Control manager configuration."
+        install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdk-bt-rcu-config.json ${IMAGE_ROOTFS}/etc/ctrlm_config.json
+    else
+        bbnote "Detected default RCU Control manager configurations, skipping Community RCU Control manager configuration."
     fi
 }
