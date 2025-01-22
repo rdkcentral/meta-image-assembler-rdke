@@ -22,4 +22,5 @@ create_init_link() {
         ln -sf /sbin/init ${IMAGE_ROOTFS}/init
 }
 
-ROOTFS_POSTPROCESS_COMMAND += "create_init_link; "
+ROOTFS_POSTPROCESS_COMMAND:append = " create_init_link;"
+

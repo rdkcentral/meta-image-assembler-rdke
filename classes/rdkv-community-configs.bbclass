@@ -45,6 +45,13 @@ install_community_rfc_configs() {
     fi
 }
 
+# Add rdkhell key mapping
+ROOTFS_POSTPROCESS_COMMAND:append = " map_rdkshell_keys;"
+map_rdkshell_keys() {
+    bbnote "Installing Reference RCU(tatlow) RDKShell keymap..."
+    install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/uei-tatlow-rdkshell-keymapping.json ${IMAGE_ROOTFS}/etc/rdkshell_keymapping.json
+}
+
 # Optional: To expose access of Thunder to the local network for Tests/Tools.
 ROOTFS_POSTPROCESS_COMMAND:append = " wpeframework_binding_patch;"
 wpeframework_binding_patch() {
