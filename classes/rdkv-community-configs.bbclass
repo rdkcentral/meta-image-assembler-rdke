@@ -45,7 +45,7 @@ install_community_rfc_configs() {
     fi
 }
 
-# Add rdkhell key mapping
+# Mandatory: Add rdkhell key mapping of the supported RCU. Make sure to align with Device bundled RCU.
 ROOTFS_POSTPROCESS_COMMAND:append = " map_rdkshell_keys;"
 map_rdkshell_keys() {
     bbnote "Installing Reference RCU(tatlow) RDKShell keymap..."
