@@ -53,7 +53,7 @@ map_rdkshell_keys() {
     # Add RDKSHELL_KEYMAP_FILE if not defined in ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework*
     if ! grep -q "RDKSHELL_KEYMAP_FILE" ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework*; then
         bbnote "RDKSHELL_KEYMAP_FILE not defined, adding drop-in configuration..."
-        install -D -m 0644 ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework.service.d
+        install -D -m 0644 ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework.service.d/rdkshell_keymap.conf
         echo -e "[Service]\nEnvironment=\"RDKSHELL_KEYMAP_FILE=/etc/rdkshell_keymapping.json\"" > ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework.service.d/rdkshell_keymap.conf
     fi
 }
