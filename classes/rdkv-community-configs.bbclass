@@ -30,7 +30,7 @@ install_community_rfc_configs() {
 ROOTFS_POSTPROCESS_COMMAND:append = " map_rdkshell_keys;"
 map_rdkshell_keys() {
     bbnote "Installing Reference RCU(tatlow) RDKShell keymap..."
-    install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/uei-tatlow-rdkshell-keymapping.json ${IMAGE_ROOTFS}/etc/rdkshell_keymapping.json
+    install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdkshell_keymapping.json ${IMAGE_ROOTFS}/etc/rdkshell_keymapping.json
     # Add RDKSHELL_KEYMAP_FILE if not defined in ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework*
     if ! grep -q "RDKSHELL_KEYMAP_FILE" ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework*; then
         bbnote "RDKSHELL_KEYMAP_FILE not defined, adding drop-in configuration..."
@@ -89,5 +89,19 @@ update_ports_in_iptables() {
     \$IPV4_BIN -A INPUT -i p2p+ -p udp --dport 67 -j ACCEPT\\ \\n" "${IMAGE_ROOTFS}/lib/rdk/iptables_init"
     else
         bbnote "iptables_init file not found. Skipping Miracast iptables rules."
+    fi
+}
+
+#Updatintg DAC Server URL back to consult red server until the new DAC Server is ready
+ROOTFS_POSTPROCESS_COMMAND:append = " add_lisa_config_url;"
+add_lisa_config_url() {
+    LISA_JSON="${IMAGE_ROOTFS}/etc/WPEFramework/plugins/LISA.json"
+    if [ -f "$LISA_JSON" ]; then
+        # Add a comma at the end of dacBundleFirmwareCompatibilityKey line if missing
+        sed -i '/"dacBundleFirmwareCompatibilityKey"[[:space:]]*:/s/"$/",/' "$LISA_JSON"
+        # Insert configUrl after the dacBundleFirmwareCompatibilityKey line
+        sed -i '/"dacBundleFirmwareCompatibilityKey"[[:space:]]*:/a\    "configUrl": "https://280222515084-rdkm-apps-resources.s3.eu-central-1.amazonaws.com/configuration/cpe.json"' "$LISA_JSON"
+    else
+        bbwarn "LISA.json not found, skipping configUrl injection."
     fi
 }
