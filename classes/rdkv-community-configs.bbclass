@@ -91,3 +91,17 @@ update_ports_in_iptables() {
         bbnote "iptables_init file not found. Skipping Miracast iptables rules."
     fi
 }
+
+#Updatintg DAC Server URL back to consult red server until the new DAC Server is ready
+ROOTFS_POSTPROCESS_COMMAND:append = " add_lisa_config_url;"
+add_lisa_config_url() {
+    LISA_JSON="${IMAGE_ROOTFS}/etc/WPEFramework/plugins/LISA.json"
+    if [ -f "$LISA_JSON" ]; then
+        # Add a comma at the end of dacBundleFirmwareCompatibilityKey line if missing
+        sed -i '/"dacBundleFirmwareCompatibilityKey"[[:space:]]*:/s/"$/",/' "$LISA_JSON"
+        # Insert configUrl after the dacBundleFirmwareCompatibilityKey line
+        sed -i '/"dacBundleFirmwareCompatibilityKey"[[:space:]]*:/a\    "configUrl": "https://280222515084-rdkm-apps-resources.s3.eu-central-1.amazonaws.com/configuration/cpe.json"' "$LISA_JSON"
+    else
+        bbwarn "LISA.json not found, skipping configUrl injection."
+    fi
+}
