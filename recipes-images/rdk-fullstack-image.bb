@@ -17,6 +17,10 @@ inherit core-image custom-rootfs-creation extrausers
 EXTRA_USERS_PARAMS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'amazon_non_root_support', '''\
     groupadd -g 1000 amazon;\
     useradd -u 1000 -g amazon -M -r -s /bin/sh amazon;\
+''', '', d)} \
+${@bb.utils.contains('DISTRO_FEATURES', 'webkit_non_root_support', '''\
+    groupadd -g 1002 webkit;\
+    useradd -u 1002 -g webkit -M -r -s /bin/sh webkit;\
 ''', '', d)}"
 
 IMAGE_ROOTFS_SIZE ?= "8192"
