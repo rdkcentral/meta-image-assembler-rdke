@@ -35,11 +35,25 @@
     { "keyCode": 68, "mapped": { "keyCode": 224, "modifiers": [] }},
     { "keyCode": 168, "mapped": { "keyCode": 224, "modifiers": [] }},
 
+    { "keyCode": 71, "mapped": { "keyCode": 240, "modifiers": [] }},
+    { "keyCode": 72, "mapped": { "keyCode": 240, "modifiers": [] }},
+    { "keyCode": 73, "mapped": { "keyCode": 240, "modifiers": [] }},
+
     { "keyCode": 74, "mapped": { "keyCode": 174, "modifiers": [] }},
     { "keyCode": 114, "mapped": { "keyCode": 174, "modifiers": [] }},
 
+    { "keyCode": 75, "mapped": { "keyCode": 240, "modifiers": [] }},
+    { "keyCode": 76, "mapped": { "keyCode": 240, "modifiers": [] }},
+    { "keyCode": 77, "mapped": { "keyCode": 240, "modifiers": [] }},
+
     { "keyCode": 78, "mapped": { "keyCode": 175, "modifiers": [] }},
     { "keyCode": 115, "mapped": { "keyCode": 175, "modifiers": [] }},
+
+    { "keyCode": 79, "mapped": { "keyCode": 118, "modifiers": [] }},
+    { "keyCode": 80, "mapped": { "keyCode": 115, "modifiers": [] }},
+    { "keyCode": 81, "mapped": { "keyCode": 117, "modifiers": [] }},
+
+    { "keyCode": 82, "mapped": { "keyCode": 240, "modifiers": [] }},
 
     { "keyCode": 87, "mapped": { "keyCode": 227, "modifiers": [] }},
     { "keyCode": 164, "mapped": { "keyCode": 227, "modifiers": [] }},
