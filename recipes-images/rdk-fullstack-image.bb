@@ -9,8 +9,6 @@ IMAGE_INSTALL = " \
                  packagegroup-middleware-layer \
                  packagegroup-application-layer \
                  "
-# VOLATILE_BINDS configuration can change for each layer, it has to be built locally across all layer
-IMAGE_INSTALL:append = " volatile-binds"
 
 inherit core-image custom-rootfs-creation extrausers
 
