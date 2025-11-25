@@ -23,6 +23,7 @@ install_community_rfc_configs() {
     if [ -f "${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini" ]; then
         bbnote "Installing community RFC configs..."
         install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
+        sed -i '$a Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.DAC.dacBundlePlatformName=${DAC_BUN_PLATNAME_OVERRIDE}' ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
     fi
 }
 
@@ -91,3 +92,4 @@ update_ports_in_iptables() {
         bbnote "iptables_init file not found. Skipping Miracast iptables rules."
     fi
 }
+
