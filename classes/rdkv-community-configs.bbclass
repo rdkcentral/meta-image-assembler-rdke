@@ -23,6 +23,9 @@ install_community_rfc_configs() {
     if [ -f "${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini" ]; then
         bbnote "Installing community RFC configs..."
         install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
+        if [ -n "${DAC_APPSTORE_URL}" ]; then
+            echo "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.DAC.ConfigURL=${DAC_APPSTORE_URL}" >> ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
+        fi
     fi
 }
 
