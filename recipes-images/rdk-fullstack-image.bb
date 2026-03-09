@@ -7,7 +7,6 @@ DEPENDS += "nss-native"
 IMAGE_INSTALL = " \
                  packagegroup-vendor-layer \
                  packagegroup-middleware-layer \
-                 packagegroup-application-layer \
                  "
 
 inherit core-image custom-rootfs-creation extrausers
