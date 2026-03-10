@@ -22,7 +22,13 @@ ROOTFS_POSTPROCESS_COMMAND:append = " install_community_rfc_configs;"
 install_community_rfc_configs() {
     if [ -f "${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini" ]; then
         bbnote "Installing community RFC configs..."
-        install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
+        cfg_file="${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini"
+        install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini "${cfg_file}"
+        if [ -n "${DAC_APPSTORE_URL}" ]; then
+            printf '\n%s\n' "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.DAC.ConfigURL=${DAC_APPSTORE_URL}" >> "${cfg_file}"
+        else
+            bbwarn "DAC_APPSTORE_URL is not set. Skipping DAC configuration."
+        fi
     fi
 }
 
