@@ -67,9 +67,9 @@ update_dropbearkey_path() {
 # Temporary: Community RCU Control manager configuration. This needs to be removed once RDKEMW-901 is fixed.
 ROOTFS_POSTPROCESS_COMMAND:append = " ctrlm_community_remote_fix;"
 ctrlm_community_remote_fix() {
-    if [ ! -f ${IMAGE_ROOTFS}/etc/ctrlm_config.json ]; then
+    if [ ! -f ${IMAGE_ROOTFS}/opt/ctrlm_config.json ]; then
         bbnote "Adding Community RCU Control manager configurations..."
-        install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdk-bt-rcu-config.json ${IMAGE_ROOTFS}/etc/ctrlm_config.json
+        install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdk-bt-rcu-config.json ${IMAGE_ROOTFS}/opt/ctrlm_config.json
     else
         bbnote "Detected default RCU Control manager configurations, skipping Community RCU Control manager configuration."
     fi
