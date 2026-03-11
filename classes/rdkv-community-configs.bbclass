@@ -22,7 +22,13 @@ ROOTFS_POSTPROCESS_COMMAND:append = " install_community_rfc_configs;"
 install_community_rfc_configs() {
     if [ -f "${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini" ]; then
         bbnote "Installing community RFC configs..."
-        install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini ${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini
+        cfg_file="${IMAGE_ROOTFS}/etc/rfcdefaults/community-rfc-configs.ini"
+        install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/community-rfc-configs.ini "${cfg_file}"
+        if [ -n "${DAC_APPSTORE_URL}" ]; then
+            printf '\n%s\n' "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.DAC.ConfigURL=${DAC_APPSTORE_URL}" >> "${cfg_file}"
+        else
+            bbwarn "DAC_APPSTORE_URL is not set. Skipping DAC configuration."
+        fi
     fi
 }
 
@@ -61,17 +67,6 @@ update_dropbearkey_path() {
     if [ -f "${IMAGE_ROOTFS}/lib/systemd/system/dropbearkey.service" ]; then
         bbnote "Changing dropbearkey path to /opt considering ReadOnly rootfs."
         sed -i 's/\/etc\/dropbear/\/opt\/dropbear/g' ${IMAGE_ROOTFS}/lib/systemd/system/dropbearkey.service
-    fi
-}
-
-# Temporary: Community RCU Control manager configuration. This needs to be removed once RDKEMW-901 is fixed.
-ROOTFS_POSTPROCESS_COMMAND:append = " ctrlm_community_remote_fix;"
-ctrlm_community_remote_fix() {
-    if [ ! -f ${IMAGE_ROOTFS}/opt/ctrlm_config.json ]; then
-        bbnote "Adding Community RCU Control manager configurations..."
-        install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdk-bt-rcu-config.json ${IMAGE_ROOTFS}/opt/ctrlm_config.json
-    else
-        bbnote "Detected default RCU Control manager configurations, skipping Community RCU Control manager configuration."
     fi
 }
 
