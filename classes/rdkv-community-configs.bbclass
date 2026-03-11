@@ -70,17 +70,6 @@ update_dropbearkey_path() {
     fi
 }
 
-# Temporary: Community RCU Control manager configuration. This needs to be removed once RDKEMW-901 is fixed.
-ROOTFS_POSTPROCESS_COMMAND:append = " ctrlm_community_remote_fix;"
-ctrlm_community_remote_fix() {
-    if [ ! -f ${IMAGE_ROOTFS}/etc/ctrlm_config.json ]; then
-        bbnote "Adding Community RCU Control manager configurations..."
-        install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdk-bt-rcu-config.json ${IMAGE_ROOTFS}/etc/ctrlm_config.json
-    else
-        bbnote "Detected default RCU Control manager configurations, skipping Community RCU Control manager configuration."
-    fi
-}
-
 # Enable Miracast ports based on distro
 ROOTFS_POSTPROCESS_COMMAND:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ENABLE_MIRACAST', ' update_ports_in_iptables; ', '', d)}"
 update_ports_in_iptables() {
@@ -97,3 +86,4 @@ update_ports_in_iptables() {
         bbnote "iptables_init file not found. Skipping Miracast iptables rules."
     fi
 }
+
