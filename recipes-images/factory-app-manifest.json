@@ -1,0 +1,24 @@
+[
+  {
+    "packagename": "com.rdkcentral.base",
+    "srcuri": "file://com.rdkcentral.base+0.1.0.bolt",
+    "sha256sum": "d2386dd012e422e737ed2cc66201726bb9e680bc753ed29c46547d3fa0225c1b",
+	"installpath":"/etc/rdk/factoryapps"
+  },
+  {
+    "packagename": "com.rdkcentral.wpe-rdk",
+    "srcuri": "file://com.rdkcentral.wpe-rdk+0.1.0.bolt",
+    "sha256sum": "8016d174a029eaa9549a64aa888e3189e8219ad62671222ca7460c1ae150c392"
+  },
+  {
+    "packagename": "com.rdkcentral.refui",
+    "srcuri": "file://com.rdkcentral.refui+0.0.4.bolt",
+    "sha256sum": "f94c9f7bdb30d5df368623aa87543e143a68e70043bf29128f5913d5bbb367fd"
+  },
+  {
+    "packagename": "com.rdkcentral.ralf.crt",
+    "srcuri": "file://com.rdkcentral.ralf.crt",
+    "sha256sum": "a71aa6cda766093120a6fb5b855debdddb71ae2ab537f116491994d8fb51429e",
+	"installpath":"/etc/rdk/certs"
+  }
+]
