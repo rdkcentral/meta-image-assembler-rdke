@@ -33,8 +33,8 @@ install_community_rfc_configs() {
 }
 
 # Mandatory: Add windowmanager key mapping of the supported RCU.
-ROOTFS_POSTPROCESS_COMMAND:append = " install_keymap;"
-install_keymap() {
+ROOTFS_POSTPROCESS_COMMAND:append = " rdkv_install_keymap;"
+rdkv_install_keymap() {
     if [ -z "${WINDOWMANAGER_RCU_KEYMAP_FILE}" ]; then
         bbfatal "WINDOWMANAGER_RCU_KEYMAP_FILE is not set. Cannot install keymap."
     fi
