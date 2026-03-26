@@ -32,16 +32,14 @@ install_community_rfc_configs() {
     fi
 }
 
-# Mandatory: Add rdkhell key mapping of the supported RCU. Make sure to align with Device bundled RCU.
-ROOTFS_POSTPROCESS_COMMAND:append = " map_rdkshell_keys;"
-map_rdkshell_keys() {
-    bbnote "Installing Reference RCU(tatlow) RDKShell keymap..."
-    install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdkshell_keymapping.json ${IMAGE_ROOTFS}/etc/rdkshell_keymapping.json
-    # Add RDKSHELL_KEYMAP_FILE if not defined in ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework*
-    if ! grep -q "RDKSHELL_KEYMAP_FILE" ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework*; then
-        bbnote "RDKSHELL_KEYMAP_FILE not defined, adding drop-in configuration..."
-        install -D -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/rdkshell_keymap.conf ${IMAGE_ROOTFS}/lib/systemd/system/wpeframework.service.d/rdkshell_keymap.conf
+# Mandatory: Add windowmanager key mapping of the supported RCU.
+ROOTFS_POSTPROCESS_COMMAND:append = " rdkv_install_keymap;"
+rdkv_install_keymap() {
+    if [ -z "${WINDOWMANAGER_RCU_KEYMAP_FILE}" ]; then
+        bbfatal "WINDOWMANAGER_RCU_KEYMAP_FILE is not set. Cannot install keymap."
     fi
+    bbnote "Installing Reference RCU keymap for Windowmanager as ${WINDOWMANAGER_RCU_KEYMAP_FILE}"
+    install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/generic_rcu_keymapping.json ${IMAGE_ROOTFS}/${WINDOWMANAGER_RCU_KEYMAP_FILE}
 }
 
 # Optional: To expose access of Thunder to the local network for Tests/Tools.
