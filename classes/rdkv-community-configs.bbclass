@@ -39,7 +39,7 @@ rdkv_install_keymap() {
         bbfatal "WINDOWMANAGER_RCU_KEYMAP_FILE is not set. Cannot install keymap."
     fi
     bbnote "Installing Reference RCU keymap for Windowmanager as ${WINDOWMANAGER_RCU_KEYMAP_FILE}"
-    install -m 0644 ${MANIFEST_PATH_RDK_IMAGES}/conf/generic_rcu_keymapping.json ${IMAGE_ROOTFS}/${WINDOWMANAGER_RCU_KEYMAP_FILE}
+    install -D -m 0644 "${MANIFEST_PATH_RDK_IMAGES}/conf/generic_rcu_keymapping.json" "${IMAGE_ROOTFS}/${WINDOWMANAGER_RCU_KEYMAP_FILE}"
 }
 
 # Optional: To expose access of Thunder to the local network for Tests/Tools.
