@@ -11,11 +11,6 @@ IMAGE_INSTALL = " \
 
 inherit core-image custom-rootfs-creation extrausers
 
-EXTRA_USERS_PARAMS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'amazon_non_root_support', '''\
-    groupadd -g 1001 amazon;\
-    useradd -u 1001 -g amazon -M -r -s /bin/sh amazon;\
-''', '', d)}"
-
 IMAGE_ROOTFS_SIZE ?= "8192"
 IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
 
