@@ -43,12 +43,14 @@ rdkv_install_keymap() {
 
     # Propagate configured keymap via parent service environment to rdkwindowmanager plugin.
     if [ -n "${WINDOWMANAGER_RCU_KEYMAP_FILE}" ]; then
-        RDKWM_SERVICE="${IMAGE_ROOTFS}${systemd_system_unitdir}/wpeframework-rdkwindowmanager.service"
+        RDKWM_SERVICE="${IMAGE_ROOTFS}${systemd_unitdir}/system/wpeframework.service"
 
         if [ -f "${RDKWM_SERVICE}" ]; then
             if grep -Eq '^[[:space:]]*Environment="?RDK_WINDOW_MANAGER_KEYMAP_FILE=' "${RDKWM_SERVICE}"; then
+                bbnote "Updating Windowmanager KEYMAP env in wpeframework.service"
                 sed -i -E "s|^[[:space:]]*Environment=\"?RDK_WINDOW_MANAGER_KEYMAP_FILE=.*$|Environment=\"RDK_WINDOW_MANAGER_KEYMAP_FILE=${WINDOWMANAGER_RCU_KEYMAP_FILE}\"|" "${RDKWM_SERVICE}"
             else
+                bbnote "Adding Windowmanager KEYMAP env in wpeframework.service"
                 sed -i "/^\[Service\]/a Environment=\"RDK_WINDOW_MANAGER_KEYMAP_FILE=${WINDOWMANAGER_RCU_KEYMAP_FILE}\"" "${RDKWM_SERVICE}"
             fi
         fi
