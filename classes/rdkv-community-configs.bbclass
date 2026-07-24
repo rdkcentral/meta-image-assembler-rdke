@@ -31,30 +31,6 @@ install_community_rfc_configs() {
         fi
     fi
 }
-
-# Mandatory: Add windowmanager key mapping of the supported RCU.
-ROOTFS_POSTPROCESS_COMMAND:append = " rdkv_install_keymap;"
-rdkv_install_keymap() {
-    if [ -z "${WINDOWMANAGER_RCU_KEYMAP_FILE}" ]; then
-        bbfatal "WINDOWMANAGER_RCU_KEYMAP_FILE is not set. Cannot install keymap."
-    fi
-    bbnote "Installing Reference RCU keymap for Windowmanager as ${WINDOWMANAGER_RCU_KEYMAP_FILE}"
-    install -D -m 0644 "${MANIFEST_PATH_RDK_IMAGES}/conf/generic_rcu_keymapping.json" "${IMAGE_ROOTFS}/${WINDOWMANAGER_RCU_KEYMAP_FILE}"
-
-    # Propagate configured keymap via parent service environment to rdkwindowmanager plugin.
-    WPEFW_SERVICE="${IMAGE_ROOTFS}${systemd_unitdir}/system/wpeframework.service"
-
-    if [ -f "${WPEFW_SERVICE}" ]; then
-        if grep -Eq '^[[:space:]]*Environment="?RDK_WINDOW_MANAGER_KEYMAP_FILE=' "${WPEFW_SERVICE}"; then
-            bbnote "Updating Windowmanager KEYMAP env in wpeframework.service"
-            sed -i -E "s|^[[:space:]]*Environment=\"?RDK_WINDOW_MANAGER_KEYMAP_FILE=.*$|Environment=\"RDK_WINDOW_MANAGER_KEYMAP_FILE=${WINDOWMANAGER_RCU_KEYMAP_FILE}\"|" "${WPEFW_SERVICE}"
-        else
-            bbnote "Adding Windowmanager KEYMAP env in wpeframework.service"
-            sed -i "/^\[Service\]/a Environment=\"RDK_WINDOW_MANAGER_KEYMAP_FILE=${WINDOWMANAGER_RCU_KEYMAP_FILE}\"" "${WPEFW_SERVICE}"
-        fi
-    fi
-}
-
 # Optional: To expose access of Thunder to the local network for Tests/Tools.
 ROOTFS_POSTPROCESS_COMMAND:append = " wpeframework_binding_patch;"
 wpeframework_binding_patch() {
