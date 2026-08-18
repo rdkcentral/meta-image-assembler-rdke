@@ -77,8 +77,8 @@ update_ports_in_iptables() {
 # RDKMVE-3184: New AppManager startup marker change
 ROOTFS_POSTPROCESS_COMMAND:append = " create_appmgr_marker_path;"
 create_appmgr_marker_path() {
-    if [ ! -f "${IMAGE_ROOTFS}/etc/rdkappmanagers" ]; then
+    if [ ! -e "${IMAGE_ROOTFS}/etc/rdkappmanagers" ]; then
         bbnote "Creating AI2.0 marker file /etc/rdkappmanagers."
-        touch "${IMAGE_ROOTFS}/etc/rdkappmanagers"
+        install -D -m 0644 /dev/null "${IMAGE_ROOTFS}/etc/rdkappmanagers"
     fi
 }
