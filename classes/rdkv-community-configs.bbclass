@@ -31,22 +31,6 @@ install_community_rfc_configs() {
         fi
     fi
 }
-# Optional: To expose access of Thunder to the local network for Tests/Tools.
-ROOTFS_POSTPROCESS_COMMAND:append = " wpeframework_binding_patch;"
-wpeframework_binding_patch() {
-    bbnote "Checking if ${IMAGE_ROOTFS}/etc/WPEFramework/config.json exists..."
-    if [ -f "${IMAGE_ROOTFS}/etc/WPEFramework/config.json" ]; then
-        sed -i "s/127.0.0.1/0.0.0.0/g" ${IMAGE_ROOTFS}/etc/WPEFramework/config.json
-
-        if grep -q "0.0.0.0" "${IMAGE_ROOTFS}/etc/WPEFramework/config.json"; then
-            bbnote "Thunder 'binding' successfully updated to '0.0.0.0'."
-        else
-            bbwarn "Thunder 'binding' update failed. Check the sed command or config file content."
-        fi
-    else
-        bbnote "${IMAGE_ROOTFS}/etc/WPEFramework/config.json not found. Skipping Thunder 'binding' patch."
-    fi
-}
 
 # Optional: SSH keys are installed by the Operator to ensure the device is accessible securely if required.
 ROOTFS_POSTPROCESS_COMMAND:append = " update_dropbearkey_path;"
