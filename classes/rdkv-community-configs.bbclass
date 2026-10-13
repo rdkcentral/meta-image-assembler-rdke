@@ -77,7 +77,7 @@ update_ports_in_iptables() {
 # RDKMVE-3373: Fix cgroupV2 process management issues on Kernel 6.X with systemd 2.30.
 # Injects drop-in overrides to prevent systemic cgroup leaf purges on modern schedulers.
 
-SYSTEMD_CGROUP_LEAF_PURGE_OVERRIDE_SERVICES = "parodus.service tr69hostif.service"
+SYSTEMD_CGROUP_LEAF_PURGE_OVERRIDE_SERVICES = "parodus.service"
 
 ROOTFS_POSTPROCESS_COMMAND:append = " systemd_cgroup_leaf_purge_override_dropins;"
 
