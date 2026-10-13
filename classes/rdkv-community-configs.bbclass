@@ -73,3 +73,28 @@ update_ports_in_iptables() {
         bbnote "iptables_init file not found. Skipping Miracast iptables rules."
     fi
 }
+
+# RDKMVE-3373: Fix cgroupV2 process management issues on Kernel 6.X with systemd 2.30.
+# Injects drop-in overrides to prevent systemic cgroup leaf purges on modern schedulers.
+
+SYSTEMD_CGROUP_LEAF_PURGE_OVERRIDE_SERVICES = "parodus.service tr69hostif.service"
+
+ROOTFS_POSTPROCESS_COMMAND:append = " systemd_cgroup_leaf_purge_override_dropins;"
+
+systemd_cgroup_leaf_purge_override_dropins() {
+    if [ -n "${SYSTEMD_CGROUP_LEAF_PURGE_OVERRIDE_SERVICES}" ]; then
+        for svc in ${SYSTEMD_CGROUP_LEAF_PURGE_OVERRIDE_SERVICES}; do
+            service_dropin_dir="${IMAGE_ROOTFS}${systemd_system_unitdir}/${svc}.d"
+            install -d -m 0755 "${service_dropin_dir}"
+            cat > "${service_dropin_dir}/override.conf" << 'EOF'
+[Service]
+KillMode=process
+Delegate=yes
+EOF
+            chmod 0644 "${service_dropin_dir}/override.conf"
+            bbnote "Created systemd drop-in override for ${svc}"
+        done
+    else
+        bbnote "SYSTEMD_CGROUP_LEAF_PURGE_OVERRIDE_SERVICES is empty. Skipping override creation."
+    fi
+}
