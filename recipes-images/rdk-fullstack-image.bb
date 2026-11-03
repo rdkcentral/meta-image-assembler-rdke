@@ -7,6 +7,9 @@ DEPENDS += "nss-native"
 IMAGE_INSTALL = " \
                  packagegroup-vendor-layer \
                  packagegroup-middleware-layer \
+                 kernel-dev \
+                 zram \
+                 util-linux-zramctl \
                  "
 
 inherit core-image custom-rootfs-creation extrausers
