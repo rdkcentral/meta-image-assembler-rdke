@@ -73,3 +73,13 @@ update_ports_in_iptables() {
         bbnote "iptables_init file not found. Skipping Miracast iptables rules."
     fi
 }
+
+# RDKMVE-3373: Remove once MW Ci issues are fixed and changes are available
+# with kernel 6.X, cgroupv2 and older systemd230, parodus process fails to start.
+ROOTFS_POSTPROCESS_COMMAND:append = " remove_pidfile_from_parodus_service;"
+remove_pidfile_from_parodus_service() {
+    if [ -f "${IMAGE_ROOTFS}/lib/systemd/system/parodus.service" ]; then
+        bbnote "Remove PIDFile configuration from parodus.service."
+        sed -i '/^PIDFile=\/run\/parodus\.pid$/d' "${IMAGE_ROOTFS}/lib/systemd/system/parodus.service"
+    fi
+}
